@@ -27,11 +27,8 @@ CREATE TABLE `password_resets` (
 
 -- Insert admin user
 INSERT INTO users (username, password, name, email, role) 
-VALUES ('admin', '$2y$10$5uS5g2EUsRQ2iXVtuOlZgOYde4Og/N1GkJ8mLRBjp7TfckynZddXO', 'Admin User', 'admin@example.com', 'admin');
-
--- Insert sample employee users
+VALUES ('sundar', '$2y$10$NFIL5Fo3Rb265kCHO8JkL.crNq./XI0aL7umiWZGuFQco3QodVAiu', 'Sundar', 'psundarprakash603@gmail.com', 'admin');
 INSERT INTO users (username, password, name, email, role) 
-VALUES ('employee1', '$2y$10$5uS5g2EUsRQ2iXVtuOlZgOYde4Og/N1GkJ8mLRBjp7TfckynZddXO', 'Employee One', 'employee1@example.com', 'employee'),
-       ('employee2', '$2y$10$5uS5g2EUsRQ2iXVtuOlZgOYde4Og/N1GkJ8mLRBjp7TfckynZddXO', 'Employee Two', 'employee2@example.com', 'employee');
+VALUES ('maran', '$2y$10$kMHNMANBKKxEjdAQoFmWeOahrEoVdmQwH5F8GFIDvEW.tO01IQy2G', 'Sukumaran', 'sugumaran713@gmail.com', 'admin');
 
 
