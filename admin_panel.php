@@ -45,7 +45,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     
     <!-- Generate Report Form -->
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-xl font-semibold mb-4">Generate Report</h2>
+        <h2 class="text-xl font-semibold mb-4">Generate Overall Report</h2>
         <form id="generateReportForm">
             <div class="mb-4">
                 <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2">Start Date</label>
@@ -55,7 +55,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
                 <label for="endDate" class="block text-gray-700 text-sm font-bold mb-2">End Date</label>
                 <input type="date" id="endDate" name="endDate" class="w-full px-3 py-2 border rounded-lg" required>
             </div>
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Generate Report</button>
+            <a href="#" id="generateReportLink" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 text-center block">Generate Report</a>
         </form>
     </div>
 </div>
@@ -63,6 +63,12 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
 <!-- User List -->
 <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-4">User List</h2>
+    <!-- Search Bar -->
+<div class="mt-8">
+    <div class="mb-4">
+        <input type="text" id="searchInput" class="w-full px-3 py-2 border rounded-lg" placeholder="Search by username or full name">
+    </div>
+</div>
     <table class="w-full border-collapse">
         <thead>
             <tr class="bg-gray-200 text-gray-700">
@@ -96,37 +102,15 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
             }
         });
     });
-    
-    document.getElementById('generateReportForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    fetch('includes/generate_report.php', {
-        method: 'POST',
-        body: formData
-    })
-    // .then(response => {console.log(response.json())})
-    .then(data => {
-        console.log(data)
-        if (data.ok) {
-    const link = document.createElement('a');
-    link.href = data.filepath; // This should now point to the correct URL
-    link.download = 'attendance-report.xlsx';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    alert('Report generated successfully!');
-}
- else {
-    alert('Error generating report: ' + data.error);
-} 
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error generating report. Please try again.');
-    });
-});
 
-    
+    // Update the Generate Report link dynamically based on the date inputs
+    document.getElementById('generateReportForm').addEventListener('input', function() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const generateReportLink = document.getElementById('generateReportLink');
+        generateReportLink.href = `includes/generate_overall_report.php?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+    });
+
     function loadUserList() {
         fetch('includes/get_user_list.php')
         .then(response => response.json())
@@ -138,6 +122,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
                     <td class="border p-2">${user.email}</td>
                     <td class="border p-2">${user.role}</td>
                     <td class="border p-2 text-center">
+                     <a href="user_summary.php?id=${user.id}" class="bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600">View Summary</a>
                         <button onclick="updateUser('${user.id}')" class="bg-yellow-500 text-white py-1 px-2 rounded-lg hover:bg-yellow-600">Update</button>
                         <button onclick="deleteUser('${user.id}')" class="bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600">Delete</button>
                     </td>
@@ -148,7 +133,6 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     }
     
     function updateUser(userId) {
-        // Redirect to the update page or open a modal for updating
         window.location.href = `update_user.php?id=${userId}`;
     }
     
@@ -172,6 +156,34 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
             });
         }
     }
+    document.getElementById('searchInput').addEventListener('input', function() {
+    const query = this.value.trim();
+    fetchUserList(query);
+});
+
+function fetchUserList(query = '') {
+    fetch('includes/get_user_list.php?search=' + encodeURIComponent(query))
+        .then(response => response.json())
+        .then(data => {
+            const userListHtml = data.users.map(user => `
+                <tr>
+                    <td class="border p-2">${user.username}</td>
+                    <td class="border p-2">${user.name}</td>
+                    <td class="border p-2">${user.email}</td>
+                    <td class="border p-2">${user.role}</td>
+                    <td class="border p-2 text-center">
+                        <a href="user_summary.php?id=${user.id}" class="bg-blue-500 text-white py-1 px-2 rounded-lg hover:bg-blue-600">View Summary</a>
+                        <button onclick="updateUser('${user.id}')" class="bg-yellow-500 text-white py-1 px-2 rounded-lg hover:bg-yellow-600">Update</button>
+                        <button onclick="deleteUser('${user.id}')" class="bg-red-500 text-white py-1 px-2 rounded-lg hover:bg-red-600">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+            document.getElementById('userList').innerHTML = userListHtml;
+        });
+}
+
+// Initial load
+fetchUserList();
     
     // Initial load
     loadUserList();

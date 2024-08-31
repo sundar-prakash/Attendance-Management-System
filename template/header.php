@@ -1,5 +1,17 @@
 <?php
 session_start();
+// date_default_timezone_set('Asia/Kolkata'); 
+$timeout_duration = 3600; // 1 hour
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+    // Last activity was more than 1 hour ago
+    session_unset();     // Unset all session variables
+    session_destroy();   // Destroy the session
+    header("Location: login.php"); // Redirect to login page
+    exit();
+}
+
+$_SESSION['LAST_ACTIVITY'] = time();
 ?>
 <!DOCTYPE html>
 <html lang="en">

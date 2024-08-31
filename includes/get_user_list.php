@@ -1,22 +1,30 @@
 <?php
 session_start();
-include 'db.php'; // Ensure the database connection is included
+include "db.php";
 
-$response = ['users' => []];
+header('Content-Type: application/json');
 
-if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
-    $stmt = $conn->prepare("SELECT id, username, name, email, role FROM users");
-    $stmt->execute();
-    $result = $stmt->get_result();
+$search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : '%';
 
-    while ($row = $result->fetch_assoc()) {
-        $response['users'][] = $row;
-    }
+// Prepare the SQL statement
+$stmt = $conn->prepare("
+    SELECT id, username, name, email, role
+    FROM users
+    WHERE username LIKE ? OR name LIKE ?
+    ORDER BY id
+");
 
-    $stmt->close();
-} else {
-    $response['error'] = 'Unauthorized';
+// Bind parameters
+$stmt->bind_param("ss", $search, $search);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$users = [];
+while ($row = $result->fetch_assoc()) {
+    $users[] = $row;
 }
 
-echo json_encode($response);
+echo json_encode(['users' => $users]);
+
+$stmt->close();
 ?>

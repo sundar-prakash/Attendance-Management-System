@@ -13,8 +13,8 @@ CREATE TABLE attendance (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     date DATE NOT NULL,
-    time TIME NOT NULL,
-    type ENUM('check_in', 'check_out') NOT NULL,
+    checkin_time TIME ,
+    checkout_time TIME ,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 CREATE TABLE `password_resets` (
