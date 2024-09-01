@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
 
         // Send the reset email
-        $resetLink = "http://ams.zingbizz.com/reset_password.php?token=$token";
+        $resetLink = URL."/reset_password.php?token=$token";
         $mail = new PHPMailer;
 
         $mail->isSMTP();

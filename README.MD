@@ -54,6 +54,9 @@ Attendance Management System (AMS) is a web-based application designed to help o
      define('OFFICE_LATITUDE', 'your_office_latitude'); // Replace with your office latitude
      define('OFFICE_LONGITUDE', 'your_office_longitude'); // Replace with your office longitude
      define('CHECKIN_RADIUS', 500); // Radius in meters within which check-in is allowed
+
+     //url config
+     define('URL', 'http://localhost/ams'); 
      ?>
      ```
 

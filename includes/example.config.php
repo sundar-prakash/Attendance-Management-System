@@ -18,4 +18,7 @@ define('SMTP_FROM_NAME', 'example');
 define('OFFICE_LATITUDE', 'your-office-lat');
 define('OFFICE_LONGITUDE', 'your-office-long');
 define('CHECKIN_RADIUS', 500); 
+
+//url config
+define('URL', 'http://localhost/ams'); 
 ?>
