@@ -1,8 +1,9 @@
 <?php
-// Function to check if the user's location is within 500 meters of the office
-function check_location($user_lat, $user_lon, $office_lat = 13.0065556, $office_lon = 80.13166666666666) {
+include_once 'includes/config.php';
+// Function to check if the user's location is within CHECKIN_RADIUS meters of the office
+function check_location($user_lat, $user_lon, $office_lat = OFFICE_LATITUDE , $office_lon = OFFICE_LONGITUDE ) {
     $distance = get_distance_from_lat_lon_in_km($user_lat, $user_lon, $office_lat, $office_lon);
-    return $distance <= 0.5; // Distance is in km, 0.5 km = 500 meters
+    return $distance <= (CHECKIN_RADIUS/1000); // Distance is in km, 0.5 km = 500 meters
 }
 
 // Function to calculate the distance between two coordinates in kilometers

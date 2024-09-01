@@ -13,4 +13,9 @@ define('SMTP_PORT', 587);
 define('SMTP_SECURE', 'tls'); // or 'ssl'
 define('SMTP_FROM_EMAIL', 'example@example.com');
 define('SMTP_FROM_NAME', 'example');
+
+// location config
+define('OFFICE_LATITUDE', 'your-office-lat');
+define('OFFICE_LONGITUDE', 'your-office-long');
+define('CHECKIN_RADIUS', 500); 
 ?>
