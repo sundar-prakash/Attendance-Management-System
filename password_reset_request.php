@@ -2,6 +2,7 @@
 $pageTitle = 'Reset Password - Attendance System';
 include 'template/header.php';
 include 'includes/db.php';
+include_once 'includes/config.php';
 require 'includes/PHPMailer/PHPMailerAutoload.php'; // Adjust this path if needed
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -29,17 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Send the reset email
         $resetLink = "http://ams.zingbizz.com/reset_password.php?token=$token";
-        
         $mail = new PHPMailer;
-        $mail->isSMTP();
-        $mail->Host = 'smtp.zoho.in'; // Your SMTP server
-        $mail->SMTPAuth = true;
-        $mail->Username = 'info@zingbizz.com'; // SMTP username
-        $mail->Password = 'JtdhrYvVawTy'; // SMTP password
-        $mail->SMTPSecure = 'tls'; // or 'ssl'
-        $mail->Port = 587; // or 465 for SSL
 
-        $mail->setFrom('info@zingbizz.com', 'Zingbizz-AMS');
+        $mail->isSMTP();
+        $mail->Host = SMTP_HOST; // SMTP server
+$mail->SMTPAuth = true;
+$mail->Username = SMTP_USER; // SMTP username
+$mail->Password = SMTP_PASS; // SMTP password
+$mail->SMTPSecure = SMTP_SECURE; // 'tls' or 'ssl'
+$mail->Port = SMTP_PORT; // Port number
+
+$mail->setFrom(SMTP_FROM_EMAIL, SMTP_FROM_NAME);
+     
         $mail->addAddress($email);
         $mail->Subject = 'Password Reset Request';
         $mail->Body    = "Please click the following link to reset your password: $resetLink";

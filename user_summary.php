@@ -1,7 +1,7 @@
 <?php
 $pageTitle = 'User Summary - Attendance System';
 include_once 'template/header.php'; // Ensure header is included only once
-include_once 'includes/functions.php'; // Ensure functions.php is included only once
+include_once 'includes/helpers/functions.php'; // Ensure functions.php is included only once
 
 if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     header('Location: login.php');
@@ -81,7 +81,7 @@ $totalPages = ceil($totalEntries / $itemsPerPage);
         <?php endif; ?>
     </div>
 
-    <a href="includes/generate_user_attendance.php?id=<?php echo urlencode($user_id); ?>" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Download Summary as Excel</a>
+    <a href="includes/attendance/generate_user_attendance.php?id=<?php echo urlencode($user_id); ?>" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Download Summary as Excel</a>
 </div>
 
 <?php include 'template/footer.php'; ?>

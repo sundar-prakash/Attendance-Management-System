@@ -58,7 +58,7 @@ if (!$username) {
     document.getElementById('updateUserForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        fetch('includes/update_user.php', {
+        fetch('includes/user/update_user.php', {
             method: 'POST',
             body: formData
         })

@@ -1,8 +1,7 @@
 <?php
 session_start();
 include "db.php";
-require "PhpXlsxGenerator.php"; // Adjust the path
-
+require "helpers/PhpXlsxGenerator.php"; // Adjust the path
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
@@ -19,42 +18,28 @@ function sanitizeInput($data) {
 }
 
 $response = ["success" => false];
+$fileName = "attendance-data_" . date("Y-m-d") . ".xls";
 
 if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
-    if (!isset($_GET['id'])) {
-        echo 'No user ID provided.';
-        exit();
-    }
+    $startDate = sanitizeInput($_GET['startDate']);
+    $endDate = sanitizeInput($_GET['endDate']);
 
-    $user_id = sanitizeInput($_GET['id']);
-    
-    // Prepare the SQL statement with TIMEDIFF to calculate duration
+    // Prepare the SQL statement
     $stmt = $conn->prepare("
-        SELECT u.name, u.username, a.date, a.checkin_time, a.checkout_time, 
-               TIMEDIFF(a.checkout_time, a.checkin_time) AS duration
+        SELECT u.name, u.username, a.date, a.time, a.type
         FROM attendance a
         JOIN users u ON a.user_id = u.id
-        WHERE a.user_id = ?
-        ORDER BY a.date
+        WHERE a.date BETWEEN ? AND ?
+        ORDER BY u.id, a.date, a.time
     ");
 
     // Bind parameters
-    $stmt->bind_param("i", $user_id);
+    $stmt->bind_param("ss", $startDate, $endDate);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Fetch user details for filename
-    $user_stmt = $conn->prepare("SELECT name FROM users WHERE id = ?");
-    $user_stmt->bind_param("i", $user_id);
-    $user_stmt->execute();
-    $user_result = $user_stmt->get_result();
-    $user_name = $user_result->fetch_assoc()['name'];
-    
-    // Generate filename
-    $fileName = sanitizeInput($user_name) . "_attendance_" . date("Y-m-d") . ".xls";
-
     // Prepare the data for the XLSX file
-    $header = ["Name", "Username", "Date", "Check-in Time", "Check-out Time", "Duration"];
+    $header = ["Name", "Username", "Date", "checkin_time", "checkout_time"];
     // Display column names as first row
     $excelData = implode("\t", array_values($header)) . "\n";
 
@@ -66,7 +51,6 @@ if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
                 $row["date"],
                 $row["checkin_time"],
                 $row["checkout_time"],
-                $row["duration"], // Add duration to data
             ];
             array_walk($data, "filterData");
             $excelData .= implode("\t", array_values($data)) . "\n";
@@ -81,8 +65,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
     exit();
 
     $stmt->close();
-    $user_stmt->close();
 } else {
-    echo 'Unauthorized access or invalid request method.';
+    $response['error'] = 'Unauthorized access or invalid request method.';
 }
 ?>

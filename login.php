@@ -3,7 +3,7 @@ $pageTitle = 'Login - Attendance System';
 include 'template/header.php';
 include 'includes/db.php';         // Include database connection
 include 'includes/auth.php';       // Include authentication functions
-include 'includes/location_validation.php'; // Include validation functions
+include 'includes/helpers/location_validation.php'; // Include validation functions
 
 // Initialize debug variables
 $debug_latitude = isset($_POST['latitude']) ? htmlspecialchars($_POST['latitude']) : null;

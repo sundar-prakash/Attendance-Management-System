@@ -1,12 +1,9 @@
 <?php
+include_once  'includes/config.php';
 // Database connection settings
-$host = 'localhost';
-$db = 'attendance_system';
-$user = 'root';
-$pass = ''; // Change to your database password
 
 // Create a new MySQLi object for database connection
-$conn = new mysqli($host, $user, $pass, $db);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // Check for connection errors
 if ($conn->connect_error) {

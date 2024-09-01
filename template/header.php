@@ -1,6 +1,6 @@
 <?php
 session_start();
-// date_default_timezone_set('Asia/Kolkata'); 
+date_default_timezone_set('Asia/Kolkata'); 
 $timeout_duration = 3600; // 1 hour
 
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {

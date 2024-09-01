@@ -1,7 +1,7 @@
 <?php
 $pageTitle = 'Dashboard - Attendance System';
 include 'template/header.php';
-include 'includes/functions.php';
+include 'includes/helpers/functions.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -17,6 +17,8 @@ $user_details = get_user_name($user_id);
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Today's Attendance</h2>
+        <p><?php echo 'Current timezone: ' . date_default_timezone_get() . '<br>';
+echo 'Current time: ' . date('Y-m-d H:i:s'); ?></p>
         <div id="attendanceStatus"></div>
         <button id="checkInBtn" class="mt-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600">Check In</button>
         <button id="checkOutBtn" class="mt-4 ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">Check Out</button>
@@ -39,7 +41,7 @@ $user_details = get_user_name($user_id);
     });
 
     function recordAttendance(type) {
-        fetch('includes/attendance.php', {
+        fetch('includes/attendance/attendance.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,7 +60,7 @@ $user_details = get_user_name($user_id);
     }
     
     function updateAttendanceStatus() {
-        fetch('includes/get_attendance_status.php')
+        fetch('includes/attendance/get_attendance_status.php')
         .then(response => response.json())
         .then(data => {
             document.getElementById('attendanceStatus').innerHTML = `
@@ -95,7 +97,7 @@ $user_details = get_user_name($user_id);
     }
 
     function loadWeeklySummary() {
-    fetch('includes/get_weekly_summary.php')
+    fetch('includes/attendance/get_weekly_summary.php')
     .then(response => response.json())
     .then(data => {
         const ctx = document.getElementById('weeklySummaryChart').getContext('2d');

@@ -87,7 +87,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     document.getElementById('addUserForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(e.target);
-        fetch('includes/add_user.php', {
+        fetch('includes/user/add_user.php', {
             method: 'POST',
             body: formData
         })
@@ -108,11 +108,11 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
         const generateReportLink = document.getElementById('generateReportLink');
-        generateReportLink.href = `includes/generate_overall_report.php?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
+        generateReportLink.href = `includes/attendance/generate_overall_report.php?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`;
     });
 
     function loadUserList() {
-        fetch('includes/get_user_list.php')
+        fetch('includes/user/get_user_list.php')
         .then(response => response.json())
         .then(data => {
             const userListHtml = data.users.map(user => `
@@ -138,7 +138,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
     
     function deleteUser(userId) {
         if (confirm('Are you sure you want to delete this user?')) {
-            fetch('includes/delete_user.php', {
+            fetch('includes/user/delete_user.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -162,7 +162,7 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
 });
 
 function fetchUserList(query = '') {
-    fetch('includes/get_user_list.php?search=' + encodeURIComponent(query))
+    fetch('includes/user/get_user_list.php?search=' + encodeURIComponent(query))
         .then(response => response.json())
         .then(data => {
             const userListHtml = data.users.map(user => `

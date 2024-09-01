@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Kolkata');
 include 'db.php'; // Include database connection
 
 if (!isset($_SESSION['user_id'])) {
