@@ -1,11 +1,16 @@
 <?php
 session_start();
-include "db.php";
-require "helpers/PhpXlsxGenerator.php"; // Adjust the path
+include_once "../db.php";
+require "../helpers/PhpXlsxGenerator.php"; // Adjust the path
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 function filterData(&$str) {
+    if (is_null($str)) {
+        $str = '';  // Or handle it in another appropriate way, like setting a default value
+        return;
+    }
+
     $str = preg_replace("/\t/", "\\t", $str);
     $str = preg_replace("/\r?\n/", "\\n", $str);
     if (strstr($str, '"')) {
@@ -26,11 +31,11 @@ if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
 
     // Prepare the SQL statement
     $stmt = $conn->prepare("
-        SELECT u.name, u.username, a.date, a.time, a.type
+        SELECT u.name, u.username, a.date, a.checkin_time, a.checkout_time
         FROM attendance a
         JOIN users u ON a.user_id = u.id
         WHERE a.date BETWEEN ? AND ?
-        ORDER BY u.id, a.date, a.time
+        ORDER BY u.id, a.date
     ");
 
     // Bind parameters
@@ -39,7 +44,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['is_admin']) {
     $result = $stmt->get_result();
 
     // Prepare the data for the XLSX file
-    $header = ["Name", "Username", "Date", "checkin_time", "checkout_time"];
+    $header = ["Name", "Username", "Date", "Check-in Time", "Check-out Time"];
     // Display column names as first row
     $excelData = implode("\t", array_values($header)) . "\n";
 

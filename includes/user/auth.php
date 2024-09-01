@@ -1,5 +1,5 @@
 <?php
-include 'db.php'; // Include the database connection
+include_once '../db.php'; // Include the database connection
 
 // Function to verify user credentials
 function verify_credentials($username, $password) {

@@ -1,5 +1,5 @@
 <?php
-include 'db.php'; // Include database connection
+include_once 'includes/db.php'; // Include database connection
 
 // Function to get user details
 function get_user_name($user_id) {

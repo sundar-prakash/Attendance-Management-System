@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db.php';
+include_once '../db.php';
 
 $response = ['success' => false];
 

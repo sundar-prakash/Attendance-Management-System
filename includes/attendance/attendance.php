@@ -1,7 +1,8 @@
 <?php
+//attendance.php
 session_start();
 date_default_timezone_set('Asia/Kolkata');
-include 'db.php'; // Include database connection
+include_once '../db.php'; // Include database connection
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'User not logged in']);

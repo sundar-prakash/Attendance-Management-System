@@ -1,5 +1,5 @@
 <?php
-include_once  'includes/config.php';
+include_once  'config.php';
 // Database connection settings
 
 // Create a new MySQLi object for database connection

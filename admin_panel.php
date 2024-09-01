@@ -63,24 +63,29 @@ if (!isset($_SESSION['user_id']) || !$_SESSION['is_admin']) {
 <!-- User List -->
 <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-4">User List</h2>
+
     <!-- Search Bar -->
-<div class="mt-8">
-    <div class="mb-4">
-        <input type="text" id="searchInput" class="w-full px-3 py-2 border rounded-lg" placeholder="Search by username or full name">
+    <div class="mt-8">
+        <div class="mb-4">
+            <input type="text" id="searchInput" class="w-full px-3 py-2 border rounded-lg" placeholder="Search by username or full name">
+        </div>
     </div>
-</div>
-    <table class="w-full border-collapse">
-        <thead>
-            <tr class="bg-gray-200 text-gray-700">
-                <th class="border p-2">Username</th>
-                <th class="border p-2">Full Name</th>
-                <th class="border p-2">Email</th>
-                <th class="border p-2">Role</th>
-                <th class="border p-2">Actions</th>
-            </tr>
-        </thead>
-        <tbody id="userList"></tbody>
-    </table>
+
+    <!-- Table Wrapper for Horizontal Scroll -->
+    <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-200 text-gray-700">
+                    <th class="border p-2">Username</th>
+                    <th class="border p-2">Full Name</th>
+                    <th class="border p-2">Email</th>
+                    <th class="border p-2">Role</th>
+                    <th class="border p-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userList"></tbody>
+        </table>
+    </div>
 </div>
 
 <script>

@@ -1,7 +1,7 @@
 <?php
 session_start();
-include "db.php";
-require "helpers/PhpXlsxGenerator.php"; // Adjust the path
+include_once "../db.php";
+require "../helpers/PhpXlsxGenerator.php"; // Adjust the path
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);

@@ -2,7 +2,7 @@
 $pageTitle = 'Login - Attendance System';
 include 'template/header.php';
 include 'includes/db.php';         // Include database connection
-include 'includes/auth.php';       // Include authentication functions
+include 'includes/user/auth.php';       // Include authentication functions
 include 'includes/helpers/location_validation.php'; // Include validation functions
 
 // Initialize debug variables
