@@ -29,7 +29,7 @@ $_SESSION['LAST_ACTIVITY'] = time();
                     <div class="flex space-x-7">
                         <div>
                             <a href="index.php" class="flex items-center py-4 px-2">
-                                <span class="font-semibold text-gray-500 text-lg">Attendance System</span>
+                                <span class="font-semibold text-gray-500 text-lg">Employee Registration</span>
                             </a>
                         </div>
                     </div>

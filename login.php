@@ -2,7 +2,7 @@
 $pageTitle = 'Login - Attendance System';
 include 'template/header.php';
 include 'includes/db.php';         // Include database connection
-include 'includes/user/auth.php';       // Include authentication functions
+include 'includes/user/auth.php';  // Include authentication functions
 include 'includes/helpers/location_validation.php'; // Include validation functions
 
 // Initialize debug variables
@@ -45,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="min-h-screen flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-md w-96">
+        <div class="text-center mb-6">
+            <img src="zingbizz_logo.png" alt="ZingBizz Logo" class="mx-auto h-20">
+        </div>
         <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
         <?php if (isset($error)): ?>
             <p class="text-red-500 mb-4"><?php echo htmlspecialchars($error); ?></p>

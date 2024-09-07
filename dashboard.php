@@ -137,7 +137,5 @@ echo 'Current time: ' . date('Y-m-d H:i:s'); ?></p>
 // Initial load
 updateAttendanceStatus();
 loadWeeklySummary();
-
 </script>
-
 <?php include 'template/footer.php'; ?>
